@@ -12,6 +12,7 @@
   --line:#D7D9CE; --line-soft:#EAE9E1;
   --pri:#45594B; --pri-600:#37493E; --pri-400:#7E9A88; --pri-050:#E4EBE1;
   --acc:#A08D4E; --acc-050:#F3EEDC;
+  --hd-bg:rgba(243,242,237,.86);
   --r-xs:8px; --r-sm:10px; --r:14px; --r-md:18px; --r-lg:24px;
   --ease:cubic-bezier(.22,.9,.3,1);
   --fs-xs:12px; --fs-sm:13px; --fs-base:15px; --fs-md:16px; --fs-lg:18px;
@@ -25,6 +26,7 @@
   --line:#343A33; --line-soft:#2A2F29;
   --pri:#8FAB98; --pri-600:#718B7B; --pri-400:#AAC4B1; --pri-050:#232E27;
   --acc:#C0AD66; --acc-050:#2E2C20;
+  --hd-bg:rgba(25,28,25,.86);
   --shadow-sm:0 1px 3px rgba(0,0,0,.30), 0 4px 12px rgba(0,0,0,.22);
 }
 *{box-sizing:border-box}
@@ -39,13 +41,18 @@ a{color:var(--pri);text-decoration:none}
 ::selection{background:rgba(160,141,78,.24)}
 
 .wrap{max-width:1060px;margin:0 auto;padding:0 24px 96px}
-.hd{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:30px 0 8px}
-.brand{display:flex;align-items:center;gap:11px;font-size:var(--fs-md);font-weight:600;letter-spacing:.02em}
-.brand .dot{width:8px;height:8px;border-radius:50%;background:var(--acc);box-shadow:0 0 0 3.5px rgba(160,141,78,.18)}
+.hd{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:16px 0 14px;background:var(--hd-bg);
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line-soft)}
+.hd-act{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}
 .btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:999px;
   font-size:var(--fs-sm);border:1px solid var(--line);color:var(--ink-600);background:var(--surface);
   cursor:pointer;transition:.22s var(--ease)}
 .btn:hover{color:var(--ink-800);border-color:var(--ink-300);background:var(--paper-2)}
+.btn-pri{background:var(--pri);color:#fff;border-color:var(--pri);
+  box-shadow:0 2px 8px rgba(69,89,75,.26)}
+.btn-pri:hover{background:var(--pri-600);border-color:var(--pri-600);color:#fff;transform:translateY(-1px)}
 
 h1.title{font-size:var(--fs-2xl);font-weight:600;letter-spacing:.01em;margin:26px 0 10px;line-height:1.35}
 .lede{font-size:var(--fs-md);color:var(--ink-500);margin:0 0 6px}
@@ -90,13 +97,6 @@ th{color:var(--ink-400);font-weight:500;font-size:var(--fs-xs);letter-spacing:.0
 td.ex{color:var(--ink-500)}
 .req{color:var(--acc);font-weight:600;font-size:var(--fs-xs)}
 
-.go{margin:18px 0 4px;text-align:center}
-.go-btn{display:inline-block;padding:13px 30px;border-radius:999px;
-  background:var(--pri);color:#fff;font-size:var(--fs-md);font-weight:500;
-  box-shadow:0 3px 12px rgba(69,89,75,.28);transition:.24s var(--ease)}
-.go-btn:hover{background:var(--pri-600);transform:translateY(-1px);color:#fff}
-.go-tip{margin-top:10px;font-size:var(--fs-sm);color:var(--ink-400)}
-
 .note{border-left:3px solid var(--acc);background:var(--acc-050);
   padding:12px 16px;border-radius:0 var(--r) var(--r) 0;margin:14px 0;
   font-size:var(--fs-sm);color:var(--ink-600)}
@@ -127,7 +127,8 @@ td.ex{color:var(--ink-500)}
 }
 
 @media print{
-  .hd .btn,.toc{display:none}
+  .hd{position:static}
+  .hd .btn,.hd-act,.toc{display:none}
   body{background:#fff}
   .card{box-shadow:none}
   h2{page-break-after:avoid}
@@ -141,7 +142,8 @@ td.ex{color:var(--ink-500)}
 
   <div class="hd">
     <div class="brand"><span class="dot"></span><span>观自在</span></div>
-    <div style="display:flex;gap:8px">
+    <div class="hd-act">
+      <a class="btn btn-pri" href="https://miapersist.github.io/self_review_public/index.html" target="_blank" rel="noopener">打开「观自在」</a>
       <button class="btn" onclick="toggleTheme()">切换主题</button>
       <button class="btn" onclick="window.print()">打印 / 存为 PDF</button>
     </div>
@@ -173,10 +175,7 @@ td.ex{color:var(--ink-500)}
           <li><b>存</b>：点「完成，保存」，立刻会得到一句「我发现了……」——那是你刚写下的、关于你自己的发现。</li>
         </ol>
         <div class="note">就这三步。今天写完就可以关掉，明天见。</div>
-        <div class="go">
-          <a class="go-btn" href="https://miapersist.github.io/self_review_public/index.html" target="_blank" rel="noopener">打开「观自在」开始写 →</a>
-          <div class="go-tip">建议用手机浏览器打开，菜单里选「添加到主屏幕」，之后点图标就进。</div>
-        </div>
+        <div class="note" style="border-left-color:var(--pri);background:var(--pri-050)">现在就试：点右上角常驻的 <b>「打开「观自在」」</b> 按钮，新标签页直接进入，跟着上面三步写下第一条。</div>
       </section>
 
       <section id="s2">
