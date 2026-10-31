@@ -403,7 +403,7 @@ a{color:var(--pri);text-decoration:none}
 .wkact .hd2 .n{font-size:var(--fs-xs);color:var(--ink-400);letter-spacing:.08em}
 .wkact .what{width:100%;padding:10px 12px;border-radius:var(--r-sm);border:1px solid var(--line);
   background:var(--paper-2);outline:none;font-size:var(--fs-sm);font-family:inherit;margin-bottom:8px;
-  transition:.2s var(--ease)}
+  line-height:1.7;resize:vertical;min-height:84px;transition:.2s var(--ease)}
 .wkact .what:focus{border-color:var(--pri-400);background:var(--surface)}
 .wkact .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px}
 .wkact .cols .f label{display:block;font-size:var(--fs-xs);color:var(--ink-400);margin-bottom:3px}
@@ -414,6 +414,137 @@ a{color:var(--pri);text-decoration:none}
 .wkentry{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .wkentry .txt{font-size:var(--fs-sm);line-height:1.7}
 [data-theme="dark"] .wklink .tp{color:#C0AD66}
+/* ============ 周度复盘 · 跨页版式（右页素材 / 左页书写） ============ */
+/* 窄屏 Tab：素材 / 复盘 */
+.wktabs{display:none;margin:var(--sp-4) 0 0;border:1px solid var(--line);border-radius:var(--r-sm);
+  overflow:hidden;width:240px}
+.wktabs button{flex:1;padding:8px 0;font-size:var(--fs-sm);color:var(--ink-400);
+  background:var(--surface);border:none;font-family:inherit;cursor:pointer;transition:.2s var(--ease)}
+.wktabs button.on{background:var(--pri-050);color:var(--pri);font-weight:600}
+/* 对开容器 */
+.wkspread{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,2fr);gap:0;margin-top:var(--sp-4);
+  border:1px solid var(--line);border-radius:var(--r-md);background:var(--surface)}
+.wkcol{padding:var(--sp-4) var(--sp-4) 0;min-width:0}
+/* 素材列（DOM 在前）落在左侧且更宽 —— 先看素材，右侧书写列小一些 */
+.wkcol-l{border-left:1px dashed var(--line)}
+.wkcol-r{background:var(--paper-2);padding-left:0;padding-right:0;
+  border-top-left-radius:var(--r-md);border-bottom-left-radius:var(--r-md)}
+/* 右页顶部操作区：吸顶但绝不锁内容 —— 素材平铺，随页面滚动 */
+.wktop{position:sticky;top:0;z-index:6;background:var(--paper-2);
+  padding:0 var(--sp-4) 8px;border-bottom:1px solid var(--line-soft)}
+.wktop .wkct{padding:0;margin-bottom:8px}
+.wkstatus{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:var(--fs-xs);
+  color:var(--ink-500);margin:0 0 6px}
+.wkstatus b{color:var(--ink-800)}
+/* 问号悬浮说明：独立小圆标，悬停才出现，不与模式切换混在一起 */
+.wkhelp{position:relative;flex:none;width:19px;height:19px;border:1px solid var(--line);
+  border-radius:50%;color:var(--ink-400);font-size:var(--fs-xs);display:inline-grid;place-items:center;
+  cursor:help;background:var(--surface);line-height:1;margin-left:6px;vertical-align:1px}
+.wkhelp:hover{color:var(--pri);border-color:var(--pri)}
+.wkhelp:hover::after{content:attr(data-tip);position:absolute;top:calc(100% + 8px);right:-6px;
+  background:var(--ink-900);color:#fff;font-size:var(--fs-xs);line-height:1.8;padding:9px 11px;
+  border-radius:var(--r-sm);width:260px;z-index:30;white-space:pre-line;box-shadow:var(--shadow-lg)}
+.wkct{font-size:var(--fs-sm);font-weight:600;color:var(--ink-800);margin-bottom:10px;
+  display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap}
+.wkct em{font-style:normal;font-weight:400;font-size:var(--fs-xs);color:var(--ink-400)}
+/* 模式切换：① 聚焦 / ② 联结 */
+/* 模式切换：每个步骤独立成一颗药丸，各自带一个问号说明 */
+.wkmodes{display:flex;gap:6px;margin:0 0 6px}
+.wkmode{flex:1;min-width:0;display:flex;align-items:center;border:1px solid var(--line);
+  border-radius:999px;background:var(--surface);transition:.2s var(--ease)}
+.wkmode.on{border-color:var(--pri);background:var(--pri-050)}
+.wkmode button{flex:1;min-width:0;padding:7px 4px 7px 12px;font-size:var(--fs-sm);color:var(--ink-500);
+  background:transparent;border:none;font-family:inherit;cursor:pointer;text-align:left;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wkmode.on button{color:var(--pri);font-weight:600}
+.wkmode .wkhelp{margin:0 7px 0 0;border-color:transparent}
+.wkmode.on .wkhelp{border-color:var(--pri-400)}
+/* 筛选 */
+.wkfilters{display:flex;gap:6px;padding:0 0 2px;flex-wrap:wrap}
+.wkfilters button{font-size:var(--fs-xs);border:1px solid var(--line);border-radius:999px;
+  padding:4px 11px;color:var(--ink-400);background:var(--surface);font-family:inherit;cursor:pointer}
+.wkfilters button.on{border-color:var(--pri);color:var(--pri);background:var(--pri-050)}
+/* 素材区：平铺，随页面滚动，不再锁在小框里 */
+.wkmat{position:relative;padding:0 var(--sp-4) var(--sp-3)}
+.wkday{font-size:var(--fs-xs);color:var(--ink-400);letter-spacing:.04em;padding:12px 0 5px;
+  border-bottom:1px solid var(--line-soft);margin-bottom:7px}
+.wkcard{position:relative;background:var(--surface);border:1px solid var(--line-soft);
+  border-radius:var(--r-sm);margin:0 38px 6px 0;transition:.2s var(--ease)}
+.wkcard.on{border-color:var(--pri);background:var(--pri-050)}
+.wkcard.anchor{border-color:var(--acc);box-shadow:0 0 0 2px var(--acc-050)}
+.wkcrow{display:flex;align-items:center;gap:6px;padding:10px 42px 10px 8px;min-height:46px;cursor:pointer}
+.wkcard.dis .wkcrow{cursor:default}
+.wkchev{flex:none;width:22px;height:22px;border-radius:var(--r-xs);color:var(--ink-300);
+  display:grid;place-items:center;font-size:11px;transition:.2s var(--ease)}
+.wkchev:hover{color:var(--pri);background:var(--paper-2)}
+.wkt{flex:1;font-size:var(--fs-sm);color:var(--ink-700);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.wkring{flex:none;position:absolute;right:9px;top:50%;transform:translateY(-50%);width:22px;height:22px;
+  border-radius:50%;border:1.5px dashed var(--line);display:grid;place-items:center;font-size:13px;
+  color:var(--ink-300);transition:.2s var(--ease)}
+.wkring.on{border-style:solid;border-color:var(--pri);background:var(--pri);color:#fff;font-size:12px}
+/* 聚焦满 3 件后，未选中的圈不再显示，避免视觉噪音 */
+.wkmat.full .wkring:not(.on){display:none}
+.wkcbody{padding:9px 12px 11px;font-size:var(--fs-xs);color:var(--ink-600);line-height:1.75;
+  border-top:1px dashed var(--line-soft)}
+.wkcbody .k{display:block;color:var(--ink-400);margin-top:5px}
+.wkcbody .k:first-child{margin-top:0}
+.wkcbody .gen{margin-top:10px}
+/* 箭头层 */
+.wkarrows{position:absolute;left:0;top:0;width:100%;pointer-events:none;z-index:2}
+.wkarrows .wkdot{pointer-events:auto;cursor:pointer}
+/* 联结类型 / 状态行里的操作片 */
+.wktype{border:1px solid var(--line);border-radius:999px;padding:5px 12px;font-size:var(--fs-xs);
+  color:var(--ink-600);background:var(--surface);font-family:inherit;cursor:pointer;transition:.2s var(--ease)}
+.wktype:hover{border-color:var(--acc);color:var(--acc)}
+.wktype.on{border-color:var(--acc);background:var(--acc-050);color:var(--acc);font-weight:600}
+/* 联结清单：类型徽章 + A → B 一行，原因另起一行，层级清楚 */
+.wklinks{margin:0 var(--sp-4) var(--sp-3)}
+.wklinks .lt{font-size:var(--fs-xs);color:var(--ink-400);letter-spacing:.04em;margin-bottom:6px}
+.wklinkrow{background:var(--surface);border:1px solid var(--line-soft);border-radius:var(--r-sm);
+  padding:10px 12px;margin-bottom:6px}
+.wklinkrow .l1{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.wklinkrow .tp{flex:none;font-size:var(--fs-xs);color:#8A7639;border:1px solid var(--acc-200);
+  border-radius:999px;padding:1px 8px;background:var(--acc-050)}
+.wklinkrow .pair{flex:1;min-width:0;font-size:var(--fs-sm);color:var(--ink-800);line-height:1.65}
+.wklinkrow .pair .ar{color:var(--acc);font-weight:600;padding:0 2px}
+.wklinkrow .ops{flex:none;display:flex;gap:2px}
+.wklinkrow .cs{margin-top:5px;font-size:var(--fs-xs);color:var(--ink-500);line-height:1.7}
+.wklinkrow .cs.none{color:var(--ink-300)}
+/* 联结原因弹窗 */
+.wkovl{position:fixed;inset:0;z-index:200;background:rgba(20,22,20,.42);display:flex;
+  align-items:center;justify-content:center;padding:20px}
+.wkmodal{width:100%;max-width:460px;background:var(--surface);border:1px solid var(--line);
+  border-radius:var(--r-md);box-shadow:var(--shadow-lg);padding:var(--sp-5);position:relative;
+  max-height:88vh;overflow-y:auto}
+.wkmodal .wkmt{font-size:var(--fs-md);font-weight:600;color:var(--ink-900);padding-right:28px;line-height:1.6}
+.wkmodal .wkmclose{position:absolute;right:13px;top:11px;color:var(--ink-300);font-size:20px;line-height:1;
+  cursor:pointer;padding:2px 7px;border-radius:999px}
+.wkmodal .wkmclose:hover{color:var(--ink-700);background:var(--paper-2)}
+.wkmodal .wktypes{display:flex;gap:6px;margin:11px 0 2px;flex-wrap:wrap}
+.wkmodal textarea{width:100%;margin-top:10px;padding:10px 12px;border-radius:var(--r-sm);border:1px solid var(--line);
+  background:var(--paper-2);outline:none;font-family:inherit;font-size:var(--fs-sm);line-height:1.7;
+  resize:vertical;min-height:66px;transition:.2s var(--ease)}
+.wkmodal textarea:focus{border-color:var(--pri-400);background:var(--surface)}
+.wkweak{font-size:var(--fs-xs);color:var(--ink-300);margin-top:6px;line-height:1.7}
+.wkmrow{display:flex;gap:8px;align-items:center;margin-top:11px}
+.wkmrow label{flex:none;font-size:var(--fs-xs);color:var(--ink-400)}
+.wkmrow input{flex:1;padding:8px 10px;border-radius:var(--r-xs);border:1px solid var(--line);
+  background:var(--paper-2);outline:none;font-size:var(--fs-sm);font-family:inherit;transition:.2s var(--ease)}
+.wkmrow input:focus{border-color:var(--pri-400);background:var(--surface)}
+.wkmact{display:flex;justify-content:flex-end;gap:8px;margin-top:var(--sp-4)}
+/* 行动来源 */
+.wksrc{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line-soft);display:flex;gap:8px;
+  align-items:center;flex-wrap:wrap;font-size:var(--fs-xs);color:var(--ink-400)}
+.wksrc select{flex:1;min-width:150px;padding:7px 9px;border-radius:var(--r-xs);border:1px solid var(--line);
+  background:var(--paper-2);font-size:var(--fs-xs);font-family:inherit;color:var(--ink-600);outline:none}
+/* 窄屏：改为 Tab 切换单列 */
+@media(max-width:1000px){
+  .wktabs{display:flex}
+  .wkspread{grid-template-columns:1fr}
+  .wkspread[data-tab="mat"] .wkcol-l{display:none}
+  .wkspread[data-tab="write"] .wkcol-r{display:none}
+  .wkcol-l{border-right:none}
+}
 /* 周复盘归档 */
 .wkst{display:inline-flex;align-items:center;gap:6px;font-size:var(--fs-xs);border-radius:999px;
   padding:3px 10px;border:1px solid var(--line);color:var(--ink-400)}
@@ -466,15 +597,56 @@ a{color:var(--pri);text-decoration:none}
 .emocustom input{flex:1;padding:8px 12px;border-radius:var(--r-sm);border:1px solid var(--line);
   background:var(--paper-2);font-size:var(--fs-sm);font-family:inherit;outline:none;transition:.2s var(--ease)}
 .emocustom input:focus{border-color:var(--pri-400);background:var(--surface)}
-.motbl{width:100%;border-collapse:collapse;font-size:var(--fs-xs);margin-top:var(--sp-3)}
-.motbl th,.motbl td{border-bottom:1px solid var(--line-soft);padding:8px 10px;
-  text-align:left;vertical-align:top}
-.motbl th{color:var(--ink-400);font-weight:500;letter-spacing:.04em}
-.motbl tbody tr{cursor:pointer;transition:.18s var(--ease)}
-.motbl tbody tr:hover td{background:var(--paper-2)}
-.motbl tr.cur td{background:var(--pri-050)}
-.motbl td.cell{color:var(--ink-600);max-width:170px;line-height:1.6}
-.motbl td.empty{color:var(--ink-200)}
+
+/* ============ 月度复盘 · 全年一览表（12 月 × 内心/行动/结果/备注） ============ */
+.mobar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;
+  margin:var(--sp-4) 0 8px}
+.moyr{display:flex;align-items:center;gap:2px}
+.moyr .y{font-size:var(--fs-md);font-weight:600;color:var(--ink-800);min-width:78px;text-align:center}
+.moviews{display:flex;gap:6px}
+.moview{border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-size:var(--fs-sm);
+  color:var(--ink-500);background:var(--surface);font-family:inherit;cursor:pointer;transition:.2s var(--ease)}
+.moview.on{border-color:var(--pri);background:var(--pri-050);color:var(--pri);font-weight:600}
+.mtblwrap{position:relative;border:1px solid var(--line);border-radius:var(--r-md);
+  background:var(--surface);margin-bottom:var(--sp-4)}
+.mtbl{width:100%;border-collapse:collapse;table-layout:fixed}
+.mtbl th{background:var(--paper-2);font-size:var(--fs-xs);color:var(--ink-400);font-weight:500;
+  letter-spacing:.04em;padding:9px 10px;text-align:left;border-bottom:1px solid var(--line);
+  border-right:1px solid var(--line-soft)}
+.mtbl th:last-child{border-right:none}
+.mtbl th.mc,.mtbl td.mc{width:66px;text-align:center}
+.mtbl td{border-bottom:1px solid var(--line-soft);border-right:1px solid var(--line-soft);
+  padding:5px 7px;vertical-align:top}
+.mtbl td:last-child{border-right:none}
+.mtbl tbody tr:last-child td{border-bottom:none}
+.mtbl td.mc{font-size:var(--fs-sm);color:var(--ink-500);font-weight:600;background:var(--paper-2)}
+.mtbl tr.cur td{background:var(--pri-050)}
+.mtbl tr.cur td.mc{color:var(--pri);background:var(--pri-050)}
+.mtbl .doney{font-size:var(--fs-xs);color:var(--acc);display:block;font-weight:400;margin-top:2px}
+/* 单元格：编辑态 */
+.mcell{display:block;width:100%;border:none;background:transparent;resize:none;outline:none;
+  font-family:inherit;font-size:var(--fs-sm);line-height:1.65;color:var(--ink-700);
+  padding:5px 6px;border-radius:var(--r-xs);min-height:58px;overflow:hidden;
+  transition:background .18s var(--ease),box-shadow .18s var(--ease)}
+.mcell::placeholder{color:var(--ink-200)}
+.mcell:hover{background:var(--paper-2)}
+.mcell:focus{background:var(--surface);box-shadow:inset 0 0 0 1px var(--pri-400)}
+/* 单元格：只读态 */
+.mro{padding:5px 6px;min-height:58px;font-size:var(--fs-sm);line-height:1.7;color:var(--ink-700)}
+.mro .ln{display:block;padding-left:12px;position:relative;margin-top:2px}
+.mro .ln:first-child{margin-top:0}
+.mro .ln::before{content:"";position:absolute;left:2px;top:8px;width:4px;height:4px;
+  border-radius:50%;background:var(--ink-200)}
+.midle{padding:5px 6px;min-height:58px;font-size:var(--fs-xs);color:var(--ink-200)}
+/* 联结模式下整格可点 */
+.mtbl td.cellm{cursor:pointer;transition:background .18s var(--ease)}
+.mtbl td.cellm:hover{background:var(--paper-2)}
+.mtbl td.anchor{background:var(--acc-050);box-shadow:inset 0 0 0 2px var(--acc)}
+/* 跨月箭头层 */
+.moarrows{position:absolute;left:0;top:0;width:100%;pointer-events:none;z-index:2}
+.moarrows .mdot{pointer-events:auto;cursor:pointer}
+.moLinks{margin-bottom:var(--sp-4)}
+.moLinks .lt{font-size:var(--fs-xs);color:var(--ink-400);letter-spacing:.04em;margin-bottom:6px}
 
 /* 网格项允许收缩，避免释义区 nowrap 撑宽整页 */
 .steps>.stepcol{min-width:0}
@@ -781,7 +953,7 @@ function emoClassOf(w){
 /* ---------- §3 存储层 ---------- */
 /* wk：周度复盘数据，独立存储，绝不与每日记录 records 混用，避免影响既有数据 */
 var K = { rec:'review_records', bak:'review_backup', prefs:'review_prefs', gh:'review_github', wk:'review_weekly',
-          mo:'review_monthly' };
+          mo:'review_monthly', mlink:'review_mlinks' };
 
 /* 一天可记录任意多条：同一天可能有多件触动自己的事，每一件都值得单独写下来 */
 
@@ -793,10 +965,16 @@ var S = {
   records:{},            // { 'YYYY-MM-DD': [entry, entry, ...] }
   wk:{},                 // 周度复盘：{ '周一YYYY-MM-DD': { focus:[id], links:[{a,b,type}], abs:{}, actions:[{}], updatedAt } }
   mo:{},                 // 月度复盘：{ 'YYYY-MM': { inner, action, result, note, done, doneAt, updatedAt } }
+  mlinks:[],             // 月度联结（跨月跨栏）：[{ a:'YYYY-MM|field', b:'YYYY-MM|field', cause }]
   reviewWeek:'',         // 当前正在复盘的周（该周周一日期）
   reviewYM:'',           // 当前正在复盘的月（YYYY-MM）
   rvTab:'week',          // 复盘页当前 Tab：week 周度 / month 月度
   moYear:false,          // 月度页「年度总览」是否展开
+  moView:'year',         // 月度页视图：year 全年一览 / month 只看当月
+  moYr:0,                // 月度页当前年份
+  moMode:'focus',        // 月度页模式：focus 聚焦（编辑）/ link 联结（连线）
+  moLinkA:null,          // 联结起点格 'YYYY-MM|field'
+  moLinkEdit:null,       // 正在编辑关键因素的联结下标
   wkAdv:false,           // 抽象化「进阶层级」是否展开
   prefs:{ theme:'light', lastExport:0, autoBackup:true, lastAutoBackup:'' },
   gh:{ token:'', owner:'', repo:'', path:'review-data.json', branch:'main' },
@@ -827,13 +1005,14 @@ function loadAll(){
   S.records = normalizeAll(lsGet(K.rec, {}) || {});
   S.wk      = lsGet(K.wk, {}) || {};
   S.mo      = lsGet(K.mo, {}) || {};
+  S.mlinks  = lsGet(K.mlink, []) || [];
   S.prefs   = Object.assign({ theme:'light', lastExport:0, autoBackup:true, lastAutoBackup:'' }, lsGet(K.prefs, {}));
   S.gh      = Object.assign({ token:'', owner:'', repo:'', path:'review-data.json', branch:'main' }, lsGet(K.gh, {}));
   document.documentElement.setAttribute('data-theme', S.prefs.theme || 'light');
 }
 /* 本地滚动备份：每日记录 + 周度复盘一起留一份，恢复时一并还原 */
 function saveBackup(){
-  lsSet(K.bak, { at:Date.now(), records:S.records, weeks:S.wk, months:S.mo });
+  lsSet(K.bak, { at:Date.now(), records:S.records, weeks:S.wk, months:S.mo, mlinks:S.mlinks });
 }
 function saveRecords(){
   lsSet(K.rec, S.records);
@@ -855,6 +1034,14 @@ function saveMo(){
 }
 var _mt;
 function debounceMo(){ clearTimeout(_mt); _mt = setTimeout(saveMo, 800); }
+/* 月度联结（跨月跨栏）独立落盘：a/b 形如 'YYYY-MM|field' */
+function saveMlinks(){
+  lsSet(K.mlink, S.mlinks);
+  saveBackup();
+  if(!S._pulling) autoPushWk();
+}
+var _mlt;
+function debounceMlinks(){ clearTimeout(_mlt); _mlt = setTimeout(saveMlinks, 800); }
 /* 周复盘改动后，若已配置云端则静默回推（与每日记录保存后的回推行为一致）；
    1500ms 防抖，连续编辑只在停下来后推一次。 */
 var _wpt;
@@ -1119,14 +1306,31 @@ function mergeMonths(remoteMonths){
   });
   return { added:added, upd:upd };
 }
-/* 解析备份/云端 JSON 载荷，兼容三类格式：
-   ① v2/v3 对象 { v:3, records:[...], weeks:{...}, months:{...} }（当前）
+/* 月度联结合并：按 a|b 去重；本地没有原因而远端有时，补上原因 */
+function mergeMlinks(remoteLinks){
+  var added = 0, upd = 0;
+  (remoteLinks || []).forEach(function(l){
+    if(!l || !l.a || !l.b) return;
+    var hit = null;
+    for(var i=0;i<S.mlinks.length;i++){
+      var x = S.mlinks[i];
+      if((x.a === l.a && x.b === l.b) || (x.a === l.b && x.b === l.a)){ hit = x; break; }
+    }
+    if(!hit){ S.mlinks.push({ a:l.a, b:l.b, cause:l.cause || '' }); added++; return; }
+    if(!hit.cause && l.cause){ hit.cause = l.cause; upd++; }
+  });
+  return { added:added, upd:upd };
+}
+/* 解析备份/云端 JSON 载荷，兼容四类格式：
+   ① v3/v4 对象 { v:4, records:[...], weeks:{...}, months:{...}, mlinks:[...] }（当前）
    ② 裸数组 allEntries()（v1.1 及更早）
-   ③ 按日期分组的对象（更早的 grouped 格式） */
+   ③ 按日期分组的对象（更早的 grouped 格式）
+   ④ 早期无 mlinks 字段的对象（mlinks 返回 null） */
 function parsePayload(data){
-  if(Array.isArray(data)) return { list:data, weeks:null, months:null };
-  if(data && data.records) return { list:flattenGrouped(data.records), weeks:data.weeks || null, months:data.months || null };
-  return { list:flattenGrouped(data), weeks:null, months:null };
+  if(Array.isArray(data)) return { list:data, weeks:null, months:null, mlinks:null };
+  if(data && data.records) return { list:flattenGrouped(data.records), weeks:data.weeks || null,
+                                    months:data.months || null, mlinks:data.mlinks || null };
+  return { list:flattenGrouped(data), weeks:null, months:null, mlinks:null };
 }
 
 function filledCount(r){
@@ -1221,10 +1425,31 @@ function render(){
   var nav = document.querySelector('.nav');
   if(nav) nav.style.display = (p==='record' || p==='feedback') ? 'none' : 'flex';
 
-  // 阅读型页面收窄，长文本更易读；记录页两栏保持宽屏
+  // 阅读型页面收窄；记录页与复盘页（周度跨页 / 月度年表）保持宽屏
   var app = document.querySelector('.app');
-  if(app) app.classList.toggle('narrow', p!=='record');
+  if(app) app.classList.toggle('narrow', p!=='record' && p!=='review');
   if(p==='record') setTimeout(afterRecordRender, 0);
+  if(p === 'review'){
+    if(S.rvTab === 'month'){
+      // 月度：先让多行格撑开，再按格子实际坐标画跨月箭头
+      setTimeout(function(){ moAutoGrow(); drawMoArrows(); }, 0);
+      if(!window.__moArrowBound){
+        window.__moArrowBound = 1;
+        window.addEventListener('resize', function(){
+          if(S.page === 'review' && S.rvTab === 'month'){ moAutoGrow(); drawMoArrows(); }
+        });
+      }
+    }else{
+      // 周度：素材列渲染后按卡片实际坐标绘制联结箭头
+      setTimeout(drawWkArrows, 0);
+      if(!window.__wkArrowBound){
+        window.__wkArrowBound = 1;
+        window.addEventListener('resize', function(){
+          if(S.page === 'review' && S.rvTab !== 'month') drawWkArrows();
+        });
+      }
+    }
+  }
   renderModal();
   renderEmoModal();
   window.scrollTo({ top:0 });
@@ -1521,22 +1746,169 @@ function reviewTabBar(cur){
     + '<button class="'+(cur==='month'?'on':'')+'" onclick="W.rvTab(\'month\')">月度</button>'
     + '</div>';
 }
-function viewMonthReview(){
-  var ym = S.reviewYM || curYM();
-  if(ym > curYM()) ym = curYM();
-  S.reviewYM = ym;
+/* ---------- 月度复盘 · 全年一览表（12 月 × 内心/行动/结果/备注） ---------- */
+var MO_FIELDS = [
+  { k:'inner',  label:'内心', guide:'这个月，心里反复出现的是什么？', ph:'本月内心反复出现的声音…' },
+  { k:'action', label:'行动', guide:'这个月做了什么、坚持了什么？',   ph:'本月实际采取的行动…' },
+  { k:'result', label:'结果', guide:'这些行动带来了什么结果？',       ph:'本月的成果或反馈…' },
+  { k:'note',   label:'备注', guide:'第三步的总结：一句新发现，或想尝试的事', ph:'' }
+];
+/* 备注栏未填写时的弱提示：取自书中第三步的三个例句，按月轮换 */
+var MO_NOTE_PH = [
+  '例如：入职半年，终于逐渐适应，可以专注地投入工作了。',
+  '例如：准备再用一个月完成断舍离！',
+  '例如：通过养成复盘的习惯，心态变得越来越积极了。'
+];
+var MO_CAUSE_PH = '是什么促成了这个联结？上个月的某个行动，也许就是本月某个结果的原因 —— 其中的关键因素究竟是什么？';
+function moView(){ return S.moView === 'month' ? 'month' : 'year'; }
+/* 只读取值：年表要渲染 12 个月，绝不能像 monthReview() 那样惰性创建，
+   否则空月份会被写入并同步到云端 */
+function moGet(ym){
+  var r = S.mo[ym];
+  if(!r) return { inner:'', action:'', result:'', note:'', done:false, doneAt:0, updatedAt:0 };
+  return { inner:r.inner || '', action:r.action || '', result:r.result || '', note:r.note || '',
+           done:!!r.done, doneAt:r.doneAt || 0, updatedAt:r.updatedAt || 0 };
+}
+function moModeOf(){ return S.moMode === 'link' ? 'link' : 'focus'; }
+function moFieldLabel(f){
+  for(var i=0;i<MO_FIELDS.length;i++) if(MO_FIELDS[i].k === f) return MO_FIELDS[i].label;
+  return f;
+}
+function moKey(ym, f){ return ym + '|' + f; }
+function moSplitKey(k){ var p = String(k||'').split('|'); return { ym:p[0] || '', f:p[1] || '' }; }
+/* 一格可写 1~3 件：换行即多条，顺手容忍行首的 - · • */
+function moLines(v){
+  return String(v || '').split(/\n+/)
+    .map(function(x){ return x.replace(/^\s*[-·•]\s*/, '').trim(); })
+    .filter(function(x){ return x; });
+}
+function moYearNow(){ return S.moYr || +String(curYM()).split('-')[0]; }
+function isCurMonth(ym){ return ym === curYM(); }
+function moLinksOfYear(yr){
+  return (S.mlinks || []).filter(function(l){
+    return String(l.a).slice(0,4) === String(yr) || String(l.b).slice(0,4) === String(yr);
+  });
+}
+function moCellName(k){
+  var p = moSplitKey(k);
+  if(!p.ym) return '—';
+  return (+String(p.ym).slice(5,7)) + ' 月 · ' + moFieldLabel(p.f);
+}
+function moHelp(mode){
+  if(mode === 'link'){
+    return '第二步 · 联结 —— 找到联结，并用箭头标注\n'
+      + '点一个格子作起点，再点另一个格子即连线；再点同一格可取消。\n'
+      + '可跨月、可跨栏：上个月的行动，也许就是本月某个结果的原因。\n'
+      + '点箭头上的圆标：记录「关键因素是什么」/ 改 / 删除。\n'
+      + '负面事件同样值得连线 —— 正是那次「吃了苦头」，才有了后来的自己。';
+  }
+  return '第一步 · 聚焦 —— 当月最重要的 1~3 件事\n'
+    + '内心 / 行动 / 结果 三栏各写 1~3 件，换行即多条。\n'
+    + '三栏是独立的，不必强行建立月度因果关系；\n'
+    + '分不清是「行动」还是「结果」，凭直觉放就好。\n'
+    + '第三步的总结写进「备注」栏，一句话即可。'
+    + '\n熟练后每次约 10 分钟，想深入回顾也可以花 30 分钟。';
+}
+function moLinesHtml(v){
+  var ls = moLines(v);
+  return '<div class="mro">' + ls.map(function(x){ return '<span class="ln">' + esc(x) + '</span>'; }).join('') + '</div>';
+}
+/* 单格：联结可选 / 归档只读 / 可编辑 */
+function moCellHtml(ym, f, mi, mode){
+  var r = moGet(ym);
+  var v = r[f] || '';
+  var ro = !!r.done;
+  var key = moKey(ym, f);
+  var anchor = (S.moLinkA === key);
+  if(mode === 'link' && !ro){
+    var body = moLines(v).length
+      ? moLines(v).map(function(x){ return '<span class="ln">' + esc(x) + '</span>'; }).join('')
+      : '—';
+    return '<td class="cellm' + (anchor ? ' anchor' : '') + '" data-mk="' + esc(key) + '"'
+      + ' onclick="W.moPick(\'' + key + '\')"><div class="mro">' + body + '</div></td>';
+  }
+  if(ro){
+    return '<td data-mk="' + esc(key) + '">'
+      + (moLines(v).length ? moLinesHtml(v) : '<div class="midle">—</div>') + '</td>';
+  }
+  var fdef = null;
+  for(var i=0;i<MO_FIELDS.length;i++) if(MO_FIELDS[i].k === f) fdef = MO_FIELDS[i];
+  /* 备注栏一直给例句提示；其他三栏只在当月行给提示，避免整表满是灰字 */
+  var ph = (f === 'note') ? MO_NOTE_PH[(mi - 1) % MO_NOTE_PH.length]
+    : (isCurMonth(ym) ? (fdef ? fdef.ph : '') : '');
+  return '<td data-mk="' + esc(key) + '">'
+    + '<textarea class="mcell" rows="1" placeholder="' + esc(ph || '') + '"'
+    + ' oninput="W.moCell(\'' + ym + '\',\'' + f + '\',this.value,this)">' + esc(v) + '</textarea></td>';
+}
+function moLinkRows(yr){
+  var links = moLinksOfYear(yr);
+  if(!links.length) return '';
+  var s = '<div class="moLinks"><div class="lt">已建立的联结</div>';
+  links.forEach(function(l){
+    var idx = S.mlinks.indexOf(l);
+    s += '<div class="wklinkrow"><div class="l1">'
+      +  '<span class="pair">' + esc(moCellName(l.a)) + ' <span class="ar">→</span> ' + esc(moCellName(l.b)) + '</span>'
+      +  (idx < 0 ? '' : '<span class="ops">'
+        +   '<button class="rm" onclick="W.moLinkEdit(' + idx + ')" title="记录关键因素">✎</button>'
+        +   '<button class="rm" onclick="W.moDelLink(' + idx + ')" title="删除">×</button></span>')
+      +  '</div>'
+      +  '<div class="cs' + (l.cause ? '' : ' none') + '">' + (l.cause ? esc(l.cause) : '未写关键因素') + '</div></div>';
+  });
+  return s + '</div>';
+}
+function moLinkModal(){
+  var i = S.moLinkEdit;
+  if(i == null || !S.mlinks[i]) return '';
+  var l = S.mlinks[i];
+  var s = '<div class="wkovl" onclick="W.moCloseLink()"><div class="wkmodal" onclick="event.stopPropagation()">';
+  s += '<div class="wkmt">联结关键因素 · ' + esc(moCellName(l.a)) + ' → ' + esc(moCellName(l.b)) + '</div>'
+    +  '<div class="wkmclose" onclick="W.moCloseLink()">×</div>'
+    +  '<textarea placeholder="' + esc(MO_CAUSE_PH) + '" oninput="W.moSetCause(' + i + ',this.value)">' + esc(l.cause || '') + '</textarea>'
+    +  '<div class="wkweak">发现「联结」之后，想一想：其中的关键因素是什么？（想到什么写什么，一句话也行）</div>'
+    +  '<div class="wkmact">'
+    +    '<button class="btn btn-txt" onclick="W.moDelLink(' + i + ')">删除联结</button>'
+    +    '<button class="btn btn-pri" onclick="W.moCloseLink()">保存</button>'
+    +  '</div></div></div>';
+  return s;
+}
+/* 全年表 */
+function moYearTable(yr, ym, mode){
+  var s = '';
+  s += '<div class="wkmodes">'
+    +  '<div class="wkmode' + (mode === 'focus' ? ' on' : '') + '">'
+    +    '<button onclick="W.moMode(\'focus\')">① 聚焦 · 填写三栏</button>'
+    +    '<span class="wkhelp" data-tip="' + esc(moHelp('focus')) + '">?</span></div>'
+    +  '<div class="wkmode' + (mode === 'link' ? ' on' : '') + '">'
+    +    '<button onclick="W.moMode(\'link\')">② 联结 ' + moLinksOfYear(yr).length + '</button>'
+    +    '<span class="wkhelp" data-tip="' + esc(moHelp('link')) + '">?</span></div>'
+    +  '</div>';
+
+  s += '<div class="mtblwrap" id="mtblwrap">';
+  s += '<table class="mtbl"><thead><tr><th class="mc">月份</th>'
+    +  MO_FIELDS.map(function(f){ return '<th>' + esc(f.label) + '</th>'; }).join('')
+    +  '</tr></thead><tbody>';
+  for(var i=1;i<=12;i++){
+    var mk = yr + '-' + ('0' + i).slice(-2);
+    var mr = S.mo[mk];
+    s += '<tr' + (mk === ym ? ' class="cur"' : '') + '>'
+      +  '<td class="mc">' + i + ' 月' + (mr && mr.done ? '<span class="doney">✓</span>' : '') + '</td>';
+    for(var j=0;j<MO_FIELDS.length;j++) s += moCellHtml(mk, MO_FIELDS[j].k, i, mode);
+    s += '</tr>';
+  }
+  s += '</tbody></table>';
+  s += '<svg class="moarrows" id="moarrows"></svg>';
+  s += '</div>';
+  s += moLinkRows(yr);
+  return s;
+}
+/* 只看当月（含概览与归档） */
+function moSingleMonth(ym){
   var r = monthReview(ym);
   var ents = monthEntries(ym);
   var dayN = monthRecordedDays(ym);
   var wDone = monthWeeksDone(ym), wAll = monthWeekCount(ym);
   var stat = monthEmoStat(ym);
-
   var s = '';
-  s += '<div class="pghd">'
-    +  '<button class="iconbtn" onclick="W.go(\'home\')" title="返回">'+SVG_BACK+'</button>'
-    +  '<div class="ti">复盘'+(r.done?' <span class="wkst done">✓ 已归档</span>':'')+'</div></div>';
-  s += reviewTabBar('month');
-
   s += '<div class="wkbar">'
     +  '<button class="iconbtn" onclick="W.moMove(-1)" title="上个月">'+SVG_BACK+'</button>'
     +  '<div class="m">'+ymCN(ym)+'</div>'
@@ -1557,23 +1929,22 @@ function viewMonthReview(){
   if(!ents.length && !r.done)
     s += '<div class="hint" style="margin:var(--sp-4) 0">这个月还没有每日记录。月度复盘基于每日记录，先写几次更有着落；现在写也可以。</div>';
 
-  var F = [
-    { k:'inner',  no:'①', label:'内心', guide:'这个月，心里反复出现的是什么？' },
-    { k:'action', no:'②', label:'行动', guide:'这个月做了什么、坚持了什么？' },
-    { k:'result', no:'③', label:'结果', guide:'这些行动带来了什么结果？' },
-    { k:'note',   no:'④', label:'备注', guide:'想补一句的话（可空）' }
-  ];
-  s += wkStepHead('本月', '回看这个月', '把一个月的事，收成几句话');
-  F.forEach(function(f){
+  s += wkStepHead('本月', '回看这个月', '内心 / 行动 / 结果 各写当月最重要的 1~3 件事');
+  MO_FIELDS.forEach(function(f, idx){
     var v = r[f.k] || '';
+    var ph = (f.k === 'note')
+      ? MO_NOTE_PH[(+ym.slice(5,7) - 1) % MO_NOTE_PH.length]
+      : '写一句也算；换行可写多条';
     s += '<div class="wkfield">'
-      +  '<div class="lb"><span class="no">'+f.no+'</span>'+esc(f.label)+'</div>'
+      +  '<div class="lb"><span class="no">'+['①','②','③','④'][idx]+'</span>'+esc(f.label)+'</div>'
       +  '<div class="gd">'+esc(f.guide)+'</div>'
       +  (r.done
           ? '<div class="ro-val">'+(v ? esc(v) : '<span class="dim">未填写</span>')+'</div>'
-          : '<textarea rows="2" placeholder="写一句也算" oninput="W.moSet(\''+f.k+'\',this.value)">'+esc(v)+'</textarea>')
+          : '<textarea rows="3" placeholder="'+esc(ph)+'" oninput="W.moSet(\''+f.k+'\',this.value)">'+esc(v)+'</textarea>')
       +  '</div>';
   });
+  s += '<div class="hint" style="margin:-4px 0 var(--sp-4)">备注＝第三步的总结：一句新发现，或想尝试的事。'
+    +  '写完之后看一下自己记录的内容，找出这个月的「亮点」——对自己的付出给予肯定，别把复盘变成自我批评。</div>';
 
   if(r.done){
     s += '<div class="wksave">'
@@ -1588,27 +1959,90 @@ function viewMonthReview(){
       +  '</div>';
   }
 
-  /* 年度总览：默认折叠 */
-  s += '<div style="margin-top:var(--sp-4);border-top:1px solid var(--line-soft);padding-top:var(--sp-4)">'
-    +  '<button class="btn btn-txt" onclick="W.toggleMoYear()">'+(S.moYear?'收起年度总览':'展开年度总览（12 个月）')+'</button>';
-  if(S.moYear){
-    var yr = +String(ym).split('-')[0], i;
-    s += '<table class="motbl"><thead><tr><th style="width:60px">月份</th><th>内心</th><th>行动</th><th>结果</th><th style="width:58px">状态</th></tr></thead><tbody>';
-    for(i=1;i<=12;i++){
-      var mk = yr+'-'+('0'+i).slice(-2), mr = S.mo[mk] || null;
-      var has = mr && (mr.inner || mr.action || mr.result || mr.note || mr.done);
-      var st = mr && mr.done ? '已归档' : (has ? '草稿' : '—');
-      s += '<tr'+(mk===ym?' class="cur"':'')+' onclick="W.gotoMonth(\''+mk+'\')">'
-        +  '<td>'+i+' 月</td>'
-        +  '<td class="cell'+(mr&&mr.inner?'':' empty')+'">'+(mr&&mr.inner?esc(mr.inner):'—')+'</td>'
-        +  '<td class="cell'+(mr&&mr.action?'':' empty')+'">'+(mr&&mr.action?esc(mr.action):'—')+'</td>'
-        +  '<td class="cell'+(mr&&mr.result?'':' empty')+'">'+(mr&&mr.result?esc(mr.result):'—')+'</td>'
-        +  '<td>'+st+'</td></tr>';
-    }
-    s += '</tbody></table>';
-  }
-  s += '</div>';
+  /* 只看当月时也能看到这一年的联结 */
+  s += moLinkRows(+String(ym).split('-')[0]);
   return s;
+}
+
+/* 月度页入口：全年一览 / 只看当月 */
+function viewMonthReview(){
+  var ym = S.reviewYM || curYM();
+  if(ym > curYM()) ym = curYM();
+  S.reviewYM = ym;
+  if(!S.moYr) S.moYr = +String(ym).split('-')[0];
+  var view = moView(), mode = moModeOf(), yr = moYearNow();
+  var r = monthReview(ym);
+
+  var s = '';
+  s += '<div class="pghd">'
+    +  '<button class="iconbtn" onclick="W.go(\'home\')" title="返回">'+SVG_BACK+'</button>'
+    +  '<div class="ti">复盘 · 月度'+(r.done?' <span class="wkst done">✓ 已归档</span>':'')+'</div></div>';
+  s += reviewTabBar('month');
+  s += '<div class="mobar">'
+    +  '<div class="moyr">'
+    +    '<button class="iconbtn" onclick="W.moYrMove(-1)" title="上一年">'+SVG_BACK+'</button>'
+    +    '<div class="y">'+yr+' 年</div>'
+    +    '<button class="iconbtn" onclick="W.moYrMove(1)" title="下一年"'
+    +      (yr >= +curYM().slice(0,4) ? ' style="opacity:.25;pointer-events:none"' : '')+'>'+SVG_NEXT+'</button>'
+    +  '</div>'
+    +  '<div class="moviews">'
+    +    '<button class="moview'+(view==='year'?' on':'')+'" onclick="W.moView(\'year\')">全年一览</button>'
+    +    '<button class="moview'+(view==='month'?' on':'')+'" onclick="W.moView(\'month\')">只看当月</button>'
+    +  '</div></div>';
+
+  s += (view === 'year') ? moYearTable(yr, ym, mode) : moSingleMonth(ym);
+  s += moLinkModal();
+  return s;
+}
+/* 表格里的多行格自动增高 */
+function moAutoGrow(){
+  [].forEach.call(document.querySelectorAll('.mcell'), function(t){
+    t.style.height = 'auto';
+    t.style.height = Math.max(58, t.scrollHeight) + 'px';
+  });
+}
+/* 跨月箭头：按格子实际坐标画曲线，中点圆标可点开关键因素 */
+function drawMoArrows(){
+  var box = document.getElementById('mtblwrap'), svg = document.getElementById('moarrows');
+  if(!box || !svg) return;
+  var cs = getComputedStyle(document.documentElement);
+  var acc = (cs.getPropertyValue('--acc') || '#A08D4E').trim();
+  var surf = (cs.getPropertyValue('--surface') || '#FBFAF6').trim();
+  var cells = {};
+  [].forEach.call(box.querySelectorAll('td[data-mk]'), function(td){
+    cells[td.getAttribute('data-mk')] = td;
+  });
+  var W = Math.max(box.clientWidth, 1), H = Math.max(box.clientHeight, 1);
+  svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+  svg.style.height = H + 'px';
+  var b0 = box.getBoundingClientRect();
+  function rect(td){
+    var q = td.getBoundingClientRect();
+    return { l:q.left - b0.left, t:q.top - b0.top, w:q.width, h:q.height };
+  }
+  var out = '<defs><marker id="moah" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">'
+    + '<path d="M0 0 L8 4 L0 8 z" fill="' + acc + '"/></marker></defs>';
+  moLinksOfYear(moYearNow()).forEach(function(l){
+    var ca = cells[l.a], cb = cells[l.b];
+    if(!ca || !cb) return;
+    var ra = rect(ca), rb = rect(cb);
+    var rightward = (rb.l + rb.w / 2) > (ra.l + ra.w / 2);
+    var x1 = rightward ? (ra.l + ra.w) : ra.l;
+    var x2 = rightward ? rb.l : (rb.l + rb.w);
+    var y1 = ra.t + ra.h / 2, y2 = rb.t + rb.h / 2;
+    var dx = rightward ? 46 : -46;
+    var idx = S.mlinks.indexOf(l);
+    out += '<path d="M' + x1 + ' ' + y1 + ' C ' + (x1 + dx) + ' ' + (y1 + (y2 - y1) * 0.35)
+      + ', ' + (x2 - dx) + ' ' + (y2 - (y2 - y1) * 0.35) + ', ' + x2 + ' ' + y2 + '"'
+      + ' fill="none" stroke="' + acc + '" stroke-width="1.6" opacity=".8" marker-end="url(#moah)"/>';
+    var mx = (x1 + x2) / 2, my = (y1 + y2) / 2;
+    out += '<circle class="mdot" cx="' + mx + '" cy="' + my + '" r="7" fill="' + surf + '" stroke="'
+      + acc + '" stroke-width="1.4"'
+      + (idx < 0 ? '' : ' onclick="W.moLinkEdit(' + idx + ')"') + '><title>'
+      + (l.cause ? '已写关键因素，点开查看' : '点开记录关键因素') + '</title></circle>';
+    if(l.cause) out += '<circle cx="' + mx + '" cy="' + my + '" r="2.6" fill="' + acc + '" pointer-events="none"/>';
+  });
+  svg.innerHTML = out;
 }
 
 /* --- P6 周度复盘（四步） --- */
@@ -1670,6 +2104,221 @@ function wkMonthBar(y, m){
   }
   return any ? out + '</div>' : '';
 }
+/* ---------- 周度复盘 · 跨页交互（右页素材 / 左页书写） ---------- */
+function wkMode(){ return S.wkMode === 'link' ? 'link' : 'focus'; }
+function wkTab(){ return S.wkSpreadTab === 'write' ? 'write' : 'mat'; }
+function wkArrow(t){ return t === 'indirect' ? '⇢' : (t === 'odd' ? '⇝' : '→'); }
+/* 问号悬浮说明：默认不占空间 */
+function wkHelpText(mode){
+  if(mode === 'link'){
+    return '第二步 · 联结 —— 找出事件之间的联系\n'
+      + '点第一张卡片作起点，再点另一张即建立联结；再点同一张可取消。\n'
+      + '任意两条记录都能连（不限于聚焦的 3 件）。\n'
+      + '线型：──▶ 直接　┄⇢ 间接　┈⇝ 奇妙\n'
+      + '点箭头上的圆标：记录联结原因 / 改类型 / 删除。\n'
+      + '原因写什么：当时采取了哪些有效的行动、怎样的心态起了作用、有谁支持、是否处在有利环境 —— 究竟是什么在起作用，能迁移到哪些场合。';
+  }
+  return '第一步 · 聚焦 —— 本周最重要的 3 件事\n'
+    + '每天记 3 件，一周约 21 件，再从中筛出 3 件。\n'
+    + '点卡片右侧的圈 ⭕ 圈选（选满 3 件后其余圈会隐藏），点 ★ 可取消。';
+}
+/* 渲染但不滚回顶部（render 默认回顶，交互过程中要保持位置） */
+function renderKeep(){ var y = window.scrollY; render(); window.scrollTo({ top:y }); }
+/* 状态行：操作说明已收进问号，这里只保留归档提示，不占版面 */
+function wkStatusRow(mode, r){
+  if(r.done) return '<div class="wkstatus">已归档：这一周的复盘内容已固定</div>';
+  return '';
+}
+function wkDayLabel(d){
+  var wd = ['周一','周二','周三','周四','周五','周六','周日'];
+  return wd[(parseYmd(d).getDay()+6)%7] + ' ' + (+d.slice(5,7)) + '/' + (+d.slice(8,10));
+}
+/* 展开后的完整八栏 */
+function wkCardBody(e){
+  var rows = [
+    ['① 事件', e.event], ['② 想法和感受', e.thoughts], ['③ 行动', e.action],
+    ['④ 结果', e.result], ['①-A 重新注意到了什么', e.reframe],
+    ['② 可以采取的行动', e.nextAction], ['③ 可能的结果', e.nextResult],
+    ['①-B 对自己的新发现', e.selfDiscovery]
+  ];
+  var s = '';
+  rows.forEach(function(x){
+    var v = String(x[1] || '').trim();
+    if(v) s += '<span class="k">' + esc(x[0]) + '</span>' + esc(v);
+  });
+  if((e.emotions || []).length) s += '<span class="k">情绪</span>' + esc((e.emotions || []).join('、'));
+  return s || '<span class="k">（这条还没写内容）</span>';
+}
+function wkCardHtml(e, r, mode, ro){
+  var on = r.focus.indexOf(e.id) >= 0;
+  var open = (S.wkOpen === e.id);
+  var cls = 'wkcard' + (on ? ' on' : '') + (S.wkLinkA === e.id ? ' anchor' : '')
+    + (open ? ' open' : '') + (ro ? ' dis' : '');
+  var rowAct = ro ? '' : (mode === 'link' ? 'W.wkPick(\'' + e.id + '\')' : 'W.toggleFocus(\'' + e.id + '\')');
+  var s = '<div class="' + cls + '" data-eid="' + e.id + '">'
+    + '<div class="wkcrow"' + (rowAct ? ' onclick="' + rowAct + '"' : '') + '>'
+    +   '<span class="wkchev" onclick="event.stopPropagation();W.wkToggleOpen(\'' + e.id + '\')">' + (open ? '⌃' : '⌄') + '</span>'
+    +   '<span class="wkt">' + esc(entryTitle(e)) + '</span>'
+    +   '<span class="wkring' + (on ? ' on' : '') + '"'
+    +     (ro ? '' : ' onclick="event.stopPropagation();W.toggleFocus(\'' + e.id + '\')"') + '>' + (on ? '★' : '') + '</span>'
+    + '</div>';
+  if(open){
+    s += '<div class="wkcbody">' + wkCardBody(e)
+      + (ro ? '' : '<div class="gen"><button class="btn btn-ghost" onclick="W.wkGenAction(\'' + e.id + '\')">→ 据此生成一条行动</button></div>')
+      + '</div>';
+  }
+  return s + '</div>';
+}
+/* 素材区：按周一~周日分组，空的天不显示 */
+function wkMatBody(mon, ents, r, mode){
+  var s = '', ro = !!r.done;
+  var groups = [];
+  weekDays(mon).forEach(function(d){
+    var list = dayEntries(d).filter(hasContent);
+    if(list.length) groups.push({ d:d, list:list });
+  });
+  if(!groups.length){
+    if(ro && r.snap && r.snap.focus && r.snap.focus.length){
+      r.snap.focus.forEach(function(f){
+        s += '<div class="wkcard on dis"><div class="wkcrow">'
+          +  '<span class="wkchev" style="visibility:hidden">⌄</span>'
+          +  '<span class="wkt">' + esc(f.title) + '</span>'
+          +  '<span class="wkring on">✓</span></div></div>';
+      });
+    }
+    return s;
+  }
+  groups.forEach(function(g){
+    s += '<div class="wkday">' + wkDayLabel(g.d) + '</div>';
+    g.list.forEach(function(e){
+      if(S.wkOnlyFocus && r.focus.indexOf(e.id) < 0) return;
+      s += wkCardHtml(e, r, mode, ro);
+    });
+  });
+  return s;
+}
+/* 联结清单（文字版，与箭头并行存在） */
+function wkLinkRows(r, byId, ro){
+  var snapL = (ro && r.snap && r.snap.links) ? r.snap.links : null;
+  var rows = '', any = false;
+  function causeRow(c){
+    return '<div class="cs' + (c ? '' : ' none') + '">' + (c ? esc(c) : '未写联结原因') + '</div>';
+  }
+  if(snapL && snapL.length){
+    snapL.forEach(function(l){
+      any = true;
+      rows += '<div class="wklinkrow"><div class="l1"><span class="tp">' + esc(LINKTYPES[l.type] || '联结') + '</span>'
+        +  '<span class="pair">' + esc(l.a) + ' <span class="ar">' + wkArrow(l.type) + '</span> ' + esc(l.b) + '</span></div>'
+        +  causeRow(l.cause) + '</div>';
+    });
+  }else{
+    r.links.forEach(function(l, i){
+      var a = byId[l.a], b = byId[l.b];
+      if(!a || !b) return;
+      any = true;
+      rows += '<div class="wklinkrow"><div class="l1"><span class="tp">' + esc(LINKTYPES[l.type] || '联结') + '</span>'
+        +  '<span class="pair">' + esc(entryTitle(a)) + ' <span class="ar">' + wkArrow(l.type) + '</span> ' + esc(entryTitle(b)) + '</span>'
+        +  (ro ? '' : '<span class="ops">'
+          +  '<button class="rm" onclick="W.wkEditLink(' + i + ')" title="记录原因">✎</button>'
+          +  '<button class="rm" onclick="W.delLink(' + i + ')" title="删除">×</button></span>')
+        +  '</div>' + causeRow(l.cause) + '</div>';
+    });
+  }
+  return any ? '<div class="wklinks"><div class="lt">已建立的联结</div>' + rows + '</div>' : '';
+}
+/* 联结原因弹窗：画完箭头后立即弹出；只有一个输入框，四问整合为弱提示 */
+var WK_CAUSE_PH = '是什么促成了这个联结？当时采取了哪些有效的行动、怎样的心态起了作用、是否有关键人物支持、是否恰好处在有利的环境中 —— 它究竟是什么在起作用？';
+function wkLinkModal(r, byId){
+  var i = S.wkLinkEdit;
+  if(i == null || !r.links[i]) return '';
+  var l = r.links[i], ro = !!r.done;
+  var a = byId[l.a], b = byId[l.b];
+  var at = a ? entryTitle(a) : '（已删除）', bt = b ? entryTitle(b) : '（已删除）';
+  var s = '<div class="wkovl" onclick="W.wkCloseLink()"><div class="wkmodal" onclick="event.stopPropagation()">';
+  s += '<div class="wkmt">联结原因 · ' + esc(at) + ' ' + wkArrow(l.type) + ' ' + esc(bt) + '</div>'
+    +  '<div class="wkmclose" onclick="W.wkCloseLink()">×</div>';
+  if(ro){
+    s += '<div class="wkweak" style="color:var(--ink-500);margin-top:8px">' + esc(LINKTYPES[l.type] || '联结') + '</div>';
+  }else{
+    s += '<div class="wktypes">';
+    ['direct','indirect','odd'].forEach(function(t){
+      s += '<button class="wktype' + (l.type === t ? ' on' : '') + '" onclick="W.wkSetType(' + i + ',\'' + t + '\')">' + esc(LINKTYPES[t]) + '</button>';
+    });
+    s += '</div>';
+  }
+  if(ro){
+    s += '<div class="ro-val" style="margin-top:10px">' + (l.cause ? esc(l.cause) : '<span class="dim">未填写</span>') + '</div>';
+    if(l.transfer) s += '<div class="wkweak">迁移到：' + esc(l.transfer) + '</div>';
+  }else{
+    s += '<textarea placeholder="' + esc(WK_CAUSE_PH) + '" oninput="W.wkSetCause(' + i + ',this.value)">' + esc(l.cause || '') + '</textarea>'
+      +  '<div class="wkweak">弱提示 · 有效的行动 / 心态 / 关键人物 / 有利环境 / 提炼 —— 想到什么写什么，一句话也行</div>'
+      +  '<div class="wkmrow"><label>迁移到</label><input value="' + esc(l.transfer || '') + '" placeholder="还能用在什么场合？" oninput="W.wkSetTransfer(' + i + ',this.value)"></div>';
+  }
+  s += '<div class="wkmact">';
+  if(!ro) s += '<button class="btn btn-txt" onclick="W.wkDelLink2(' + i + ')">删除联结</button>';
+  s += '<button class="btn btn-pri" onclick="W.wkCloseLink()">' + (ro ? '关闭' : '保存') + '</button>';
+  return s + '</div></div></div>';
+}
+/* 行动「来自」下拉：聚焦项 / 联结 / 抽象化已填 */
+function wkSrcOptions(r, byId, cur){
+  var opts = [], seen = {};
+  function add(v){ if(seen[v]) return; seen[v] = 1; opts.push(v); }
+  r.focus.forEach(function(id){ var e = byId[id]; if(e) add('聚焦：' + entryTitle(e)); });
+  r.links.forEach(function(l){
+    var a = byId[l.a], b = byId[l.b];
+    if(a && b) add('联结：' + entryTitle(a) + ' ' + wkArrow(l.type) + ' ' + entryTitle(b));
+  });
+  ABST.forEach(function(f){
+    var v = r.abs[f.k];
+    if(v && String(v).trim()) add('抽象化' + f.no + '：' + f.label);
+  });
+  if(cur && !seen[cur]) add(cur);
+  var s = '<option value="">（不标注来源）</option>';
+  opts.forEach(function(v){ s += '<option value="' + esc(v) + '"' + (cur === v ? ' selected' : '') + '>' + esc(v) + '</option>'; });
+  return s;
+}
+/* 箭头：渲染后按卡片实际坐标绘制 SVG 曲线（随素材列一起滚动） */
+function relRect(el, box){
+  var r = el.getBoundingClientRect(), b = box.getBoundingClientRect();
+  return { top:r.top - b.top + box.scrollTop, left:r.left - b.left, w:r.width, h:r.height };
+}
+function drawWkArrows(){
+  var box = document.getElementById('wkmat'), svg = document.getElementById('wkarrows');
+  if(!box || !svg) return;
+  var r = reviewOf(S.reviewWeek || mondayOf(today()));
+  var cs = getComputedStyle(document.documentElement);
+  var acc = (cs.getPropertyValue('--acc') || '#A08D4E').trim();
+  var surf = (cs.getPropertyValue('--surface') || '#FBFAF6').trim();
+  var pos = {};
+  [].forEach.call(box.querySelectorAll('.wkcard'), function(c){ pos[c.getAttribute('data-eid')] = c; });
+  var H = Math.max(box.scrollHeight, 1), W = Math.max(box.clientWidth, 1);
+  svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+  svg.style.height = H + 'px';
+  var out = '<defs><marker id="wkah" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">'
+    + '<path d="M0 0 L8 4 L0 8 z" fill="' + acc + '"/></marker></defs>';
+  var n = 0;
+  r.links.forEach(function(l, i){
+    var ca = pos[l.a], cb = pos[l.b];
+    if(!ca || !cb) return;                                  /* 记录已删除则不画 */
+    var ra = relRect(ca, box), rb = relRect(cb, box);
+    var X = Math.max(ra.left + ra.w, rb.left + rb.w);
+    var y1 = ra.top + ra.h / 2, y2 = rb.top + rb.h / 2;
+    var bulge = 13 + (n % 3) * 7;
+    var dash = l.type === 'indirect' ? '5 4' : (l.type === 'odd' ? '2 3' : '');
+    out += '<path d="M' + X + ' ' + y1 + ' C ' + (X + bulge) + ' ' + (y1 + (y2 - y1) * 0.28)
+      + ', ' + (X + bulge) + ' ' + (y2 - (y2 - y1) * 0.28) + ', ' + X + ' ' + y2 + '"'
+      + ' fill="none" stroke="' + acc + '" stroke-width="1.6" opacity=".8"'
+      + (dash ? ' stroke-dasharray="' + dash + '"' : '') + ' marker-end="url(#wkah)"/>';
+    var mx = X + bulge * 0.75, my = (y1 + y2) / 2;
+    out += '<circle class="wkdot" cx="' + mx + '" cy="' + my + '" r="7" fill="' + surf + '" stroke="'
+      + acc + '" stroke-width="1.4" onclick="W.wkEditLink(' + i + ')"><title>'
+      + (l.cause ? '已写原因，点开查看' : '点开记录联结原因') + '</title></circle>';
+    if(l.cause) out += '<circle cx="' + mx + '" cy="' + my + '" r="2.6" fill="' + acc + '" pointer-events="none"/>';
+    n++;
+  });
+  svg.innerHTML = out;
+}
+
 function viewReview(){
   if(S.rvTab === 'month') return viewMonthReview();
   var mon = S.reviewWeek || mondayOf(today());
@@ -1709,70 +2358,46 @@ function viewReview(){
     : '<div class="hint" style="text-align:center;margin:2px 0">周度复盘是基于每日记录的复盘。这一周你记录了 '
       +  weekRecordedDays(mon) + ' 天、共 ' + ents.length + ' 条。</div>';
 
-  /* 第一步 · 聚焦 */
-  s += wkStepHead('第一步', '聚焦', '本周最重要的 3 件事');
-  s += '<div class="hint">每天记录 3 件，一周就是 21 件。再从中筛选出 3 件最重要的事件，作为本周的重点。不着急，可以先选、再调整。</div>';
-  s += '<div class="wkcount">已聚焦 ' + r.focus.length + ' / 3</div>';
-  var snapF = (r.done && r.snap && r.snap.focus) ? r.snap.focus : null;
-  s += '<div class="wkevts">';
-  if(snapF){
-    snapF.forEach(function(f){
-      s += '<button class="wkevt on" disabled style="cursor:default">'
-        +  '<span class="d">'+(+f.date.slice(5,7))+'/'+(+f.date.slice(8,10))+'</span>'
-        +  '<span class="t">'+esc(f.title)+'</span><span class="ck">✓</span></button>';
-    });
-  }else{
-    ents.forEach(function(e){
-      var on = r.focus.indexOf(e.id) >= 0;
-      s += '<button class="wkevt'+(on?' on':'')+'"'+(r.done?' disabled style="cursor:default"':' onclick="W.toggleFocus(\''+e.id+'\')"')+'>'
-        +  '<span class="d">'+(+e.date.slice(5,7))+'/'+(+e.date.slice(8,10))+'</span>'
-        +  '<span class="t">'+esc(entryTitle(e))+'</span>'
-        +  (on?'<span class="ck">✓</span>':'')
-        +  '</button>';
-    });
-  }
-  s += '</div>';
+  /* ===== 跨页版式：右页素材（1&2 步）/ 左页书写（3&4 步） ===== */
+  var _tab = wkTab(), _mode = wkMode();
+  s += '<div class="wktabs">'
+    +  '<button class="'+(_tab==='mat'?'on':'')+'" onclick="W.wkTab(\'mat\')">素材</button>'
+    +  '<button class="'+(_tab==='write'?'on':'')+'" onclick="W.wkTab(\'write\')">复盘</button>'
+    +  '</div>';
+  s += '<div class="wkspread" data-tab="'+_tab+'">';
 
-  /* 第二步 · 联结 */
-  s += wkStepHead('第二步', '联结', '找出事件之间的联系');
-  if(r.focus.length < 2){
-    s += '<div class="hint">先在上一步选出至少 2 件事，再来寻找它们之间的联结。</div>';
-  }else{
-    s += '<div class="hint">回顾整周的记录，主动寻找事件之间的联结，并想一想：其中，究竟哪些对我起到了积极的作用？</div>';
-    var snapL = (r.done && r.snap && r.snap.links) ? r.snap.links : null;
-    if(snapL && snapL.length){
-      s += '<div style="margin:12px 0">';
-      snapL.forEach(function(l){
-        s += '<div class="wklink">'
-          +  '<span>'+esc(l.a)+'</span>'
-          +  '<span class="ar">'+(l.type==='indirect'?'⇢':'→')+'</span>'
-          +  '<span>'+esc(l.b)+'</span>'
-          +  '<span class="tp">'+esc(LINKTYPES[l.type]||'联结')+'</span></div>';
-      });
-      s += '</div>';
-    }else if(r.links.length){
-      s += '<div style="margin:12px 0">';
-      r.links.forEach(function(l, i){
-        var a = byId[l.a], b = byId[l.b];
-        s += '<div class="wklink">'
-          +  '<span>'+esc(a?entryTitle(a):'（已删除）')+'</span>'
-          +  '<span class="ar">'+(l.type==='indirect'?'⇢':'→')+'</span>'
-          +  '<span>'+esc(b?entryTitle(b):'（已删除）')+'</span>'
-          +  '<span class="tp">'+esc(LINKTYPES[l.type]||'联结')+'</span>'
-          +  (r.done?'':'<button class="rm" onclick="W.delLink('+i+')" title="删除">×</button>')+'</div>';
-      });
-      s += '</div>';
-    }
-    if(!r.done){
-      var opts = r.focus.map(function(id){ return '<option value="'+id+'">'+esc(entryTitle(byId[id]))+'</option>'; }).join('');
-      s += '<div class="wkadd">'
-        +  '<select id="lk-a">'+opts+'</select>'
-        +  '<select id="lk-type"><option value="direct">直接联结</option><option value="indirect">间接联结</option><option value="odd">奇妙联结</option></select>'
-        +  '<select id="lk-b">'+opts+'</select>'
-        +  '<button class="btn btn-ghost" onclick="W.addLink()">＋ 添加联结</button>'
-        +  '</div>';
-    }
+  /* ---------- 右页 · 本周素材（第一、二步在此列上直接操作） ---------- */
+  s += '<div class="wkcol wkcol-r">';
+  s += '<div class="wktop">';
+  s += '<div class="wkct"><span>本周素材</span>'
+    +  '<em>'+ents.length+' 条 · '+weekRecordedDays(mon)+' 天</em></div>';
+  if(!r.done){
+    s += '<div class="wkmodes">'
+      +  '<div class="wkmode'+(_mode==='focus'?' on':'')+'">'
+      +    '<button onclick="W.wkMode(\'focus\')">① 聚焦 '+r.focus.length+'/3</button>'
+      +    '<span class="wkhelp" data-tip="'+esc(wkHelpText('focus'))+'">?</span></div>'
+      +  '<div class="wkmode'+(_mode==='link'?' on':'')+'">'
+      +    '<button onclick="W.wkMode(\'link\')">② 联结 '+r.links.length+'</button>'
+      +    '<span class="wkhelp" data-tip="'+esc(wkHelpText('link'))+'">?</span></div>'
+      +  '</div>';
   }
+  s += wkStatusRow(_mode, r);
+  s += '<div class="wkfilters">'
+    +  '<button class="'+(S.wkOnlyFocus?'':'on')+'" onclick="W.wkFilter(0)">全部 '+ents.length+'</button>'
+    +  '<button class="'+(S.wkOnlyFocus?'on':'')+'" onclick="W.wkFilter(1)">只看聚焦 '+r.focus.length+'</button>'
+    +  '</div>';
+  s += '</div>';   /* /wktop */
+  s += '<div class="wkmat'+(r.focus.length>=3?' full':'')+'" id="wkmat">'
+    +  wkMatBody(mon, ents, r, _mode)
+    +  '<svg class="wkarrows" id="wkarrows"></svg>'
+    +  '</div>';
+
+  s += wkLinkRows(r, byId, r.done);
+  s += '</div>';   /* /wkcol-r */
+
+  /* ---------- 左页 · 周复盘书写区（第三、四步） ---------- */
+  s += '<div class="wkcol wkcol-l">';
+  s += '<div class="wkct"><span>周复盘</span><em>第三、四步</em></div>';
 
   /* 第三步 · 抽象化 */
   s += wkStepHead('第三步', '抽象化', '从一周的事件里看见自己');
@@ -1792,16 +2417,25 @@ function viewReview(){
       +  (r.done?'':'<button class="rm" onclick="W.delAction('+i+')" title="删除">×</button>')+'</div>'
       +  (r.done
           ? '<div class="ro-val" style="margin-bottom:8px">'+((a.what && a.what.trim()) ? esc(a.what) : '<span class="dim">未填写</span>')+'</div>'
-          : '<input class="what" value="'+esc(a.what||'')+'" placeholder="要做什么？写到一看就知道怎么开始，例如：找小幡先生聊「如何清晰表达自己的长处」" oninput="W.actSet('+i+',\'what\',this.value)">')
+          : '<textarea class="what" rows="3" placeholder="要做什么？写到一看就知道怎么开始，例如：找小幡先生聊「如何清晰表达自己的长处」" oninput="W.actSet('+i+',\'what\',this.value)">'+esc(a.what||'')+'</textarea>')
       +  '<div class="cols">'
       +    wkActInput(i,'when','When 何时',a.when,'下周一晚',r.done)
       +    wkActInput(i,'where','Where 何地',a.where,'公司会议室',r.done)
       +    wkActInput(i,'who','Who 和谁',a.who,'小幡先生',r.done)
       +    wkActInput(i,'how','How 怎么做',a.how,'先列 3 个想请教的点',r.done)
       +    wkActInput(i,'much','How much 预算',a.much,'不花钱 / 约 200 元',r.done)
-      +  '</div></div>';
+      +  '</div>'
+      +  (r.done
+          ? (a.src ? '<div class="wksrc"><span>来自</span><span style="color:var(--ink-600)">'+esc(a.src)+'</span></div>' : '')
+          : '<div class="wksrc"><span>来自</span><select onchange="W.wkSetSrc('+i+',this.value)">'+wkSrcOptions(r, byId, a.src)+'</select></div>')
+      +  '</div>';
   });
   if(!r.done) s += '<div style="margin-top:6px"><button class="btn btn-ghost" onclick="W.addAction()">＋ 添加一条行动</button></div>';
+  s += '</div>';   /* /wkcol-l */
+  s += '</div>';   /* /wkspread */
+
+  /* 联结原因弹窗：画完箭头后立即弹出 */
+  s += wkLinkModal(r, byId);
 
   /* 保存 / 归档 */
   if(r.done){
@@ -2026,9 +2660,11 @@ function viewSettings(){
     +  '<div class="fld"><label>分支</label><input id="gh-branch" value="'+esc(g.branch)+'" placeholder="main" oninput="W.setGH(\'branch\',this.value)"></div>'
     +  '<div class="row-btns">'
     +  '<button class="btn btn-ghost" onclick="W.ghTest()">测试连接</button>'
-    +  '<button class="btn btn-ghost" onclick="W.ghPull(1)">从云端拉取</button>'
+    +  '<button class="btn btn-ghost" onclick="W.ghPull()">从云端拉取</button>'
     +  '<button class="btn btn-pri" onclick="W.ghPush()">立即推送到云端</button></div>'
-    +  '<div class="hint" style="margin-top:10px">token 需要勾选 repo 权限。填好后每次保存都会自动回推（每日记录、周复盘、月复盘一起），换设备打开网页拉取一次即可接上。</div>'
+    +  '<div class="hint" style="margin-top:10px">只读拉取：填「owner + 仓库名」即可（公共仓库不必填 token），每次打开页面会自动拉一次。<br>'
+    +  '写入推送：需要 token（勾选 repo 权限）。填好后每次保存自动回推（每日记录、周复盘、月复盘一起）。<br>'
+    +  '安全闸：本地条目比云端少时会自动阻止推送，避免把云端数据冲掉 —— 先拉再写。</div>'
     +  '</div>';
 
   s += '<div class="card set-sec"><h3>数据备份</h3>'
@@ -2168,15 +2804,78 @@ W.toggleFocus = function(id){
   saveWk();
   var y = window.scrollY; render(); window.scrollTo({ top:y });
 };
-W.addLink = function(){
+/* ---------- 跨页交互 ---------- */
+W.wkTab = function(t){ S.wkSpreadTab = t; renderKeep(); };
+W.wkMode = function(m){ S.wkMode = m; S.wkLinkA = null; S.wkLinkB = null; renderKeep(); };
+W.wkFilter = function(n){ S.wkOnlyFocus = !!n; renderKeep(); };
+W.wkToggleOpen = function(id){
+  S.wkOpen = (S.wkOpen === id) ? null : id;
+  renderKeep();
+};
+/* 联结：点第一张作起点（再点一次可取消），点第二张直接建立联结并弹出「联结原因」 */
+W.wkPick = function(id){
   var r = reviewOf(S.reviewWeek || mondayOf(today()));
-  var a = document.getElementById('lk-a'), b = document.getElementById('lk-b'), t = document.getElementById('lk-type');
-  if(!a || !b || !t) return;
-  if(a.value === b.value){ toast('请选择两件不同的事'); return; }
-  r.links.push({ a:a.value, b:b.value, type:t.value });
+  if(r.done) return;
+  if(S.wkLinkA === id){ S.wkLinkA = null; renderKeep(); return; }        // 再点同一张 = 取消
+  if(!S.wkLinkA){ S.wkLinkA = id; renderKeep(); return; }
+  var dup = r.links.some(function(l){
+    return (l.a === S.wkLinkA && l.b === id) || (l.a === id && l.b === S.wkLinkA);
+  });
+  if(dup){ toast('这两件事之间已经有联结了'); S.wkLinkA = null; renderKeep(); return; }
+  r.links.push({ a:S.wkLinkA, b:id, type:'direct', cause:'', transfer:'' });
+  S.wkLinkEdit = r.links.length - 1;      // 立即弹出「联结原因」（类型在弹窗里改）
+  S.wkLinkA = null;
   r.updatedAt = Date.now();
   saveWk();
-  var y = window.scrollY; render(); window.scrollTo({ top:y });
+  renderKeep();
+};
+W.wkEditLink = function(i){ S.wkLinkEdit = i; renderKeep(); };
+W.wkCloseLink = function(){ S.wkLinkEdit = null; renderKeep(); };
+W.wkSetType = function(i, t){
+  var r = reviewOf(S.reviewWeek || mondayOf(today()));
+  if(!r.links[i]) return;
+  r.links[i].type = t; r.updatedAt = Date.now();
+  saveWk(); renderKeep();
+};
+W.wkSetCause = function(i, v){
+  var r = reviewOf(S.reviewWeek || mondayOf(today()));
+  if(!r.links[i]) return;
+  r.links[i].cause = v; r.updatedAt = Date.now();
+  debounceWk();                            // 输入不重渲染，避免光标丢失
+};
+W.wkSetTransfer = function(i, v){
+  var r = reviewOf(S.reviewWeek || mondayOf(today()));
+  if(!r.links[i]) return;
+  r.links[i].transfer = v; r.updatedAt = Date.now();
+  debounceWk();
+};
+W.wkDelLink2 = function(i){
+  var r = reviewOf(S.reviewWeek || mondayOf(today()));
+  r.links.splice(i, 1);
+  S.wkLinkEdit = null;
+  r.updatedAt = Date.now();
+  saveWk(); renderKeep();
+};
+W.wkSetSrc = function(i, v){
+  var r = reviewOf(S.reviewWeek || mondayOf(today()));
+  if(!r.actions[i]) return;
+  r.actions[i].src = v; r.updatedAt = Date.now();
+  saveWk();
+  renderKeep();
+};
+/* 从素材卡片一键生成行动 */
+W.wkGenAction = function(id){
+  var r = reviewOf(S.reviewWeek || mondayOf(today()));
+  var e = entryById(id);
+  if(!e || r.done) return;
+  var title = entryTitle(e);
+  var src = (r.focus.indexOf(id) >= 0) ? ('聚焦：' + title) : ('记录：' + title);
+  r.actions.push({ what:title, when:'', where:'', who:'', how:'', much:'', src:src });
+  r.updatedAt = Date.now();
+  saveWk();
+  S.wkSpreadTab = 'write';
+  toast('已生成一条行动，去左页「复盘」补上 4W1H');
+  render();
 };
 W.delLink = function(i){
   var r = reviewOf(S.reviewWeek || mondayOf(today()));
@@ -2235,7 +2934,8 @@ W.archiveReview = function(){
     focus: r.focus.map(function(id){ var e = byId[id]; return e ? { date:e.date, title:entryTitle(e) } : null; }).filter(Boolean),
     links: r.links.map(function(l){
       var a = byId[l.a], b = byId[l.b];
-      return { a:a?entryTitle(a):'（已删除）', b:b?entryTitle(b):'（已删除）', type:l.type };
+      return { a:a?entryTitle(a):'（已删除）', b:b?entryTitle(b):'（已删除）',
+               type:l.type, cause:l.cause||'', transfer:l.transfer||'' };
     }),
     abs: JSON.parse(JSON.stringify(r.abs || {})),
     actions: JSON.parse(JSON.stringify(r.actions || []))
@@ -2276,6 +2976,44 @@ W.gotoMonth = function(ym){
   S.reviewYM = ym;
   render(); window.scrollTo({ top:0 });
 };
+/* ---------- 月度：全年一览表交互 ---------- */
+W.moView = function(v){ S.moView = (v === 'month' ? 'month' : 'year'); S.moLinkA = null; renderKeep(); };
+W.moYrMove = function(n){ S.moYr = moYearNow() + n; S.moLinkA = null; renderKeep(); };
+W.moMode = function(m){ S.moMode = (m === 'link' ? 'link' : 'focus'); S.moLinkA = null; renderKeep(); };
+/* 单元格输入：不重渲染以保住光标，只做防抖落盘 */
+W.moCell = function(ym, f, v, el){
+  var r = monthReview(ym);
+  r[f] = v; r.updatedAt = Date.now();
+  if(el){ el.style.height = 'auto'; el.style.height = Math.max(58, el.scrollHeight) + 'px'; }
+  debounceMo();
+};
+/* 联结：点一格作起点（再点同一格取消），点第二格直接建立并弹出关键因素 */
+W.moPick = function(key){
+  if(S.moLinkA === key){ S.moLinkA = null; renderKeep(); return; }
+  if(!S.moLinkA){ S.moLinkA = key; renderKeep(); return; }
+  var dup = (S.mlinks || []).some(function(l){
+    return (l.a === S.moLinkA && l.b === key) || (l.a === key && l.b === S.moLinkA);
+  });
+  if(dup){ toast('这两个格子之间已经有联结了'); S.moLinkA = null; renderKeep(); return; }
+  S.mlinks.push({ a:S.moLinkA, b:key, cause:'' });
+  S.moLinkEdit = S.mlinks.length - 1;
+  S.moLinkA = null;
+  saveMlinks();
+  renderKeep();
+};
+W.moLinkEdit = function(i){ S.moLinkEdit = i; renderKeep(); };
+W.moCloseLink = function(){ S.moLinkEdit = null; renderKeep(); };
+W.moSetCause = function(i, v){
+  if(!S.mlinks[i]) return;
+  S.mlinks[i].cause = v;
+  debounceMlinks();                            // 输入不重渲染，避免光标丢失
+};
+W.moDelLink = function(i){
+  S.mlinks.splice(i, 1);
+  S.moLinkEdit = null;
+  saveMlinks();
+  renderKeep();
+};
 W.moSet = function(k, v){
   var r = monthReview(S.reviewYM || curYM());
   r[k] = v; r.updatedAt = Date.now();
@@ -2303,10 +3041,6 @@ W.moUnarchive = function(){
   r.done = false; r.updatedAt = Date.now();
   saveMo();
   toast('已解除归档，可以继续编辑');
-  var y = window.scrollY; render(); window.scrollTo({ top:y });
-};
-W.toggleMoYear = function(){
-  S.moYear = !S.moYear;
   var y = window.scrollY; render(); window.scrollTo({ top:y });
 };
 
@@ -2561,15 +3295,44 @@ W.calMove = function(n){
 };
 
 /* --- 设置：GitHub --- */
-W.setGH = function(k, v){ S.gh[k] = v.trim(); lsSet(K.gh, S.gh); };
+/* 配置只允许可打印 ASCII：复制粘贴常带进全角字符/弯引号/中文，
+   一旦进了 header，fetch 会在发请求前直接抛错（String contains non ISO-8859-1 code point） */
+W.setGH = function(k, v){
+  var raw = String(v == null ? '' : v);
+  var clean = raw.replace(/[^\x20-\x7E]/g, '').trim();
+  if(clean !== raw.trim()){
+    setTimeout(function(){ toast('已自动清除「' + k + '」里的非法字符（多来自复制粘贴）'); }, 0);
+  }
+  S.gh[k] = clean; lsSet(K.gh, S.gh);
+};
 function ghURL(){
   var g = S.gh;
   return 'https://api.github.com/repos/'+encodeURIComponent(g.owner)+'/'+encodeURIComponent(g.repo)+
          '/contents/'+g.path.split('/').map(encodeURIComponent).join('/');
 }
+/* 公共仓库只读时可以不填 token：此时不发送 Authorization 头，避免空凭据被判为 401 */
 function ghHeaders(){
-  return { 'Authorization':'token '+S.gh.token, 'Accept':'application/vnd.github.v3+json',
-           'Content-Type':'application/json' };
+  var h = { 'Accept':'application/vnd.github.v3+json', 'Content-Type':'application/json' };
+  if(S.gh.token) h['Authorization'] = 'token '+S.gh.token;
+  return h;
+}
+/* fetch 在 header 含非 ISO-8859-1 字符时会「同步抛错」而不是返回 rejected Promise，
+   包一层，避免把调用方（含启动流程）整段打断 */
+function ghFetch(url, opt){
+  try{ return fetch(url, opt); }
+  catch(e){ return Promise.reject(e); }
+}
+/* 云端条目数与 sha：用于推送前的「覆盖安全闸」 */
+function ghCloudStat(){
+  if(!ghReadyPull()) return Promise.resolve(null);
+  return ghFetch(ghURL()+'?ref='+encodeURIComponent(S.gh.branch||'main'), { headers:ghHeaders() })
+    .then(function(r){ if(r.status===404 || !r.ok) return null; return r.json(); })
+    .then(function(j){
+      if(!j || !j.content) return null;
+      try{ var p = parsePayload(JSON.parse(unb64(j.content))); return { count:(p.list||[]).length, sha:j.sha }; }
+      catch(e){ return null; }
+    })
+    .catch(function(){ return null; });
 }
 function b64(str){
   var b = new TextEncoder().encode(str), s = '';
@@ -2581,39 +3344,54 @@ function unb64(str){
   for(var i=0;i<s.length;i++) b[i] = s.charCodeAt(i);
   return new TextDecoder().decode(b);
 }
+/* 推送（写）：三项必须齐全 */
 function ghReady(){
   if(!S.gh.token || !S.gh.owner || !S.gh.repo){ toast('先把 token、用户名、仓库名填好'); return false; }
   return true;
 }
+/* 拉取（读）：公共仓库只需 owner + repo，不填 token 也能读 */
+function ghReadyPull(){
+  return !!(S.gh.owner && S.gh.repo);
+}
 W.ghTest = function(){
   if(!ghReady()) return;
-  fetch(ghURL()+'?ref='+encodeURIComponent(S.gh.branch||'main'), { headers:ghHeaders() })
+  ghFetch(ghURL()+'?ref='+encodeURIComponent(S.gh.branch||'main'), { headers:ghHeaders() })
     .then(function(r){
       if(r.status===404) { toast('连接正常，云端还没有数据文件，保存一次就会创建'); return null; }
       if(!r.ok) throw new Error('HTTP '+r.status);
       return r.json();
     })
     .then(function(j){ if(j) toast('连接正常，云端已有数据'); })
-    .catch(function(e){ toast('连不上：'+e.message+'（检查 token 与仓库名）'); });
+    .catch(function(e){
+      var m = /non ISO-8859-1/i.test(e.message || '')
+        ? 'token 里有非法字符（全角/中文/弯引号），请重新粘贴一次'
+        : (e.message || '未知错误');
+      toast('连不上：' + m);
+    });
 };
 W.ghPull = function(silent){
-  if(!ghReady()) return Promise.resolve();
+  if(!ghReadyPull()){
+    if(!silent) toast('先填好「仓库 owner」和「仓库名」（公共仓库只读可不填 token）');
+    return Promise.resolve();
+  }
   var url = ghURL()+'?ref='+encodeURIComponent(S.gh.branch||'main');
-  return fetch(url, { headers:ghHeaders() })
+  return ghFetch(url, { headers:ghHeaders() })
     .then(function(r){ if(r.status===404) return null; if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); })
     .then(function(j){
       if(!j || !j.content) return;
       var p = parsePayload(JSON.parse(unb64(j.content)));
       S.gh.sha = j.sha;
       S._pulling = true;                    /* 合并期间禁止回推，避免与云端来回打架 */
-      var res, ws, ms;
+      var res, ws, ms, ml;
       try{
         res = mergeEntries(p.list);
         ws = p.weeks ? mergeWeeks(p.weeks) : { added:0, upd:0 };
         ms = p.months ? mergeMonths(p.months) : { added:0, upd:0 };
+        ml = p.mlinks ? mergeMlinks(p.mlinks) : { added:0, upd:0 };
         saveRecords();
         if(ws.added || ws.upd) saveWk();
         if(ms.added || ms.upd) saveMo();
+        if(ml.added || ml.upd) saveMlinks();
       } finally { S._pulling = false; }
       if(!silent){
         var msg = '已拉取：记录 新增 '+res.added+' 条、更新 '+res.upd+' 条';
@@ -2621,29 +3399,46 @@ W.ghPull = function(silent){
         if(ms.added || ms.upd) msg += '｜月复盘 新增 '+ms.added+' 月、更新 '+ms.upd+' 月';
         toast(msg); render();
       }
+      /* 启动时的静默拉取：真的拉到了东西才提示一句，避免无声无息 */
+      else if(res && (res.added || res.upd || ws.added || ws.upd || ms.added || ms.upd || ml.added || ml.upd)){
+        toast('已从云端同步：记录 新增 ' + res.added + '、更新 ' + res.upd);
+        render();
+      }
     })
     .catch(function(e){ if(!silent) toast('拉取失败：'+e.message); });
 };
 W.ghPush = function(silent){
   if(!ghReady()) return Promise.resolve();
-  var payload = { v:3, updatedAt:Date.now(), records:allEntries(), weeks:S.wk, months:S.mo };
-  var body = { message:'review: '+today()+' 更新', content:b64(JSON.stringify(
-      payload, null, 2)),
-      branch:S.gh.branch||'main' };
-  if(S.gh.sha) body.sha = S.gh.sha;
-  return fetch(ghURL(), { method:'PUT', headers:ghHeaders(), body:JSON.stringify(body) })
-    .then(function(r){ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); })
-    .then(function(j){
-      S.gh.sha = j.content && j.content.sha;
-      if(!silent) toast('已推送到云端');
-    })
-    .catch(function(e){
-      if(!silent) toast('推送失败：'+e.message);
-      // 仅 sha 冲突（409）时先拉再推一次，其它错误不重试
-      if(e.message === 'HTTP 409'){
-        W.ghPull(1).then(function(){ W.ghPush(1); });
+  /* 覆盖安全闸：本地条目数少于云端时，绝不把云端冲掉 —— 先拉再写 */
+  return ghCloudStat().then(function(st){
+    if(st){
+      S.gh.sha = st.sha;
+      var n = allEntries().length;
+      if(st.count > n){
+        toast('云端有 ' + st.count + ' 条、本地只有 ' + n + ' 条 —— 已阻止覆盖，请先点「从云端拉取」');
+        if(!silent) render();
+        return;
       }
-    });
+    }
+    var payload = { v:4, updatedAt:Date.now(), records:allEntries(), weeks:S.wk, months:S.mo, mlinks:S.mlinks };
+    var body = { message:'review: '+today()+' 更新', content:b64(JSON.stringify(
+        payload, null, 2)),
+        branch:S.gh.branch||'main' };
+    if(S.gh.sha) body.sha = S.gh.sha;
+    return ghFetch(ghURL(), { method:'PUT', headers:ghHeaders(), body:JSON.stringify(body) })
+      .then(function(r){ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); })
+      .then(function(j){
+        S.gh.sha = j.content && j.content.sha;
+        if(!silent) toast('已推送到云端');
+      })
+      .catch(function(e){
+        if(!silent) toast('推送失败：'+e.message);
+        // 仅 sha 冲突（409）时先拉再推一次，其它错误不重试
+        if(e.message === 'HTTP 409'){
+          W.ghPull(1).then(function(){ W.ghPush(1); });
+        }
+      });
+  });
 };
 
 /* --- 设置：导入导出备份 --- */
@@ -2651,7 +3446,7 @@ W.ghPush = function(silent){
    文件名带当天日期仅用于区分备份版本。 */
 function downloadJSON(silent){
   var data = allEntries();
-  var payload = { v:3, exportedAt:Date.now(), records:data, weeks:S.wk, months:S.mo };
+  var payload = { v:4, exportedAt:Date.now(), records:data, weeks:S.wk, months:S.mo, mlinks:S.mlinks };
   var blob = new Blob([JSON.stringify(payload, null, 2)], { type:'application/json' });
   var a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
@@ -2697,9 +3492,11 @@ W.importJSON = function(input){
       var res = mergeEntries(p.list);
       var ws = p.weeks ? mergeWeeks(p.weeks) : { added:0, upd:0 };
       var ms = p.months ? mergeMonths(p.months) : { added:0, upd:0 };
+      var ml = p.mlinks ? mergeMlinks(p.mlinks) : { added:0, upd:0 };
       saveRecords();
       if(ws.added || ws.upd) saveWk();
       if(ms.added || ms.upd) saveMo();
+      if(ml.added || ml.upd) saveMlinks();
       toast('已导入记录 '+res.added+' 条、更新 '+res.upd+' 条'
         + ((ws.added||ws.upd) ? '；周复盘 新增 '+ws.added+' 周、更新 '+ws.upd+' 周' : '')
         + ((ms.added||ms.upd) ? '；月复盘 新增 '+ms.added+' 月、更新 '+ms.upd+' 月' : ''));
@@ -2750,8 +3547,11 @@ document.addEventListener('keydown', function(e){
   render();
   // 每周日自动本地备份：仅周日首次进入时下载一次，避免重复打扰
   setTimeout(function(){ W.maybeAutoBackup(); }, 600);
-  // GitHub 云：启动拉取一次合并；若有新改动由保存时自动回推
-  if(S.gh.token && S.gh.owner && S.gh.repo) W.ghPull(1);
+  // GitHub 云：启动拉取一次合并（公共仓库只读只需 owner+repo）；有新改动时由保存自动回推
+  // 无论拉取如何失败都不能打断启动流程
+  try{
+    if(ghReadyPull()) W.ghPull(1).catch(function(){});
+  }catch(e){}
 })();
 </script>
 </body>
